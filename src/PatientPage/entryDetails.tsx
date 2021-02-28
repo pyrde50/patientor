@@ -5,6 +5,10 @@ import Hospital from "./Hospital";
 import HealthCheck from "./HealthCheck";
 import OccupationalHealthcare from "./Occupational";
 
+const assertNever = (entry: never): never => {
+    throw new Error('incorrect or missing entry type' + JSON.stringify(entry));
+};
+
 
 const EntryDetails: React.FC<{entry: Entry}> = ({ entry }) => {
     switch(entry.type) {
@@ -15,9 +19,11 @@ const EntryDetails: React.FC<{entry: Entry}> = ({ entry }) => {
         case "OccupationalHealthcare":
             return <OccupationalHealthcare entry={entry}/>;
         default:
-            return null;
+            return assertNever(entry);
     }
 };
+
+
 
 
 export default EntryDetails;
