@@ -6,6 +6,7 @@ import { apiBaseUrl } from "../constants";
 import { Patient, Gender } from "../types";
 import 'semantic-ui-css/semantic.min.css';
 import { List } from "semantic-ui-react";
+import EntryDetails from "./entryDetails";
 
 const PatientsPage: React.FC = (): JSX.Element => {
     const [{ patients }, dispatch] = useStateValue();
@@ -19,17 +20,24 @@ const PatientsPage: React.FC = (): JSX.Element => {
         axios.get<Patient>(`${apiBaseUrl}/patients/${id}`).then(patient => {
             if (patient.data.ssn) {
                 current = patient.data;
-                console.log(current);
                 const newPatients = Object.values(patients).filter(a => a.id !== id).concat(current);
                 dispatch(editPatients(newPatients));
             }
         });
     }
+    const entries = current.entries;
+    console.log(entries);
     return (
         <div>
             <h2>{current.name} <Sematic gender={gender}/></h2>
             <div>ssn: {current.ssn}</div>
             <div>occupation: {current.occupation}</div>
+            <h4>entries</h4>
+            {entries?.map(entry => 
+            <div key={entry.id}>
+            <EntryDetails entry={entry}/>
+            </div>
+            )} 
         </div>
     );
 };
