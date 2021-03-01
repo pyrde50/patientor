@@ -112,3 +112,33 @@ export const DiagnosisSelection = ({
     </Form.Field>
   );
 };
+
+type SelectFieldType = {
+  name: string;
+  label: string;
+  options: typeOption[];
+};
+
+
+
+export type typeOption = {
+  value: string;
+  label: string;
+};
+
+export const SelectFieldType: React.FC<SelectFieldType> = ({
+  name,
+  label,
+  options
+}: SelectFieldType) => (
+  <Form.Field>
+    <label>{label}</label>
+    <Field as="select" name={name} className="ui dropdown">
+      {options.map(option => (
+        <option key={option.value} value={option.value}>
+          {option.label || option.value}
+        </option>
+      ))}
+    </Field>
+  </Form.Field>
+);
